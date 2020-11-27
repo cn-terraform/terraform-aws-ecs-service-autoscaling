@@ -12,7 +12,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_high" {
   threshold           = var.max_cpu_threshold
   dimensions = {
     ClusterName = var.ecs_cluster_name
-    ServiceName = aws_ecs_service.service.name
+    ServiceName = var.ecs_service_name
   }
   alarm_actions = [aws_appautoscaling_policy.scale_up_policy.arn]
 }
@@ -31,7 +31,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_low" {
   threshold           = var.min_cpu_threshold
   dimensions = {
     ClusterName = var.ecs_cluster_name
-    ServiceName = aws_ecs_service.service.name
+    ServiceName = var.ecs_service_name
   }
   alarm_actions = [aws_appautoscaling_policy.scale_down_policy.arn]
 }
@@ -43,7 +43,7 @@ resource "aws_appautoscaling_policy" "scale_up_policy" {
   name               = "${var.name_prefix}-scale-up-policy"
   depends_on         = [aws_appautoscaling_target.scale_target]
   service_namespace  = "ecs"
-  resource_id        = "service/${var.ecs_cluster_name}/${aws_ecs_service.service.name}"
+  resource_id        = "service/${var.ecs_cluster_name}/${var.ecs_service_name}"
   scalable_dimension = "ecs:service:DesiredCount"
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity"
@@ -63,7 +63,7 @@ resource "aws_appautoscaling_policy" "scale_down_policy" {
   name               = "${var.name_prefix}-scale-down-policy"
   depends_on         = [aws_appautoscaling_target.scale_target]
   service_namespace  = "ecs"
-  resource_id        = "service/${var.ecs_cluster_name}/${aws_ecs_service.service.name}"
+  resource_id        = "service/${var.ecs_cluster_name}/${var.ecs_service_name}"
   scalable_dimension = "ecs:service:DesiredCount"
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity"
@@ -81,7 +81,7 @@ resource "aws_appautoscaling_policy" "scale_down_policy" {
 #------------------------------------------------------------------------------
 resource "aws_appautoscaling_target" "scale_target" {
   service_namespace  = "ecs"
-  resource_id        = "service/${var.ecs_cluster_name}/${aws_ecs_service.service.name}"
+  resource_id        = "service/${var.ecs_cluster_name}/${var.ecs_service_name}"
   scalable_dimension = "ecs:service:DesiredCount"
   min_capacity       = var.scale_target_min_capacity
   max_capacity       = var.scale_target_max_capacity
