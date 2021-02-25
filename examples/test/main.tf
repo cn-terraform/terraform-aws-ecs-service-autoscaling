@@ -16,7 +16,7 @@ module "base-network" {
 
 module "td" {
   source          = "cn-terraform/ecs-fargate-task-definition/aws"
-  version         = "1.0.18"
+  version         = "1.0.20"
   name_prefix     = "test-td"
   container_image = "ubuntu"
   container_name  = "test"
@@ -24,7 +24,7 @@ module "td" {
 
 module "service" {
   source  = "cn-terraform/ecs-fargate-service/aws"
-  version = "2.0.11"
+  version = "2.0.13"
 
   name_prefix         = "test-service"
   vpc_id              = module.base-network.vpc_id
