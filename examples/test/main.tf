@@ -24,7 +24,7 @@ module "td" {
 
 module "service" {
   source  = "cn-terraform/ecs-fargate-service/aws"
-  version = "2.0.17"
+  version = "2.0.18"
 
   name_prefix         = "test-service"
   vpc_id              = module.base-network.vpc_id
