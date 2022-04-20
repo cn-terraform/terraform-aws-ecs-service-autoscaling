@@ -66,3 +66,10 @@ variable "scale_target_min_capacity" {
   default     = 1
   type        = number
 }
+
+
+variable "statistic" {
+  description = "The statistic to use for auto scaling. Average | Maximum" 
+  default = "Average"
+  type = string
+}
