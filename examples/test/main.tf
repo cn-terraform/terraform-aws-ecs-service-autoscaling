@@ -5,7 +5,7 @@ locals {
 
 module "cluster" {
   source = "cn-terraform/ecs-cluster/aws"
-  name   = "test-cluster"
+  name   = "test"
 }
 
 module "base-network" {
@@ -52,14 +52,14 @@ module "base-network" {
 
 module "td" {
   source          = "cn-terraform/ecs-fargate-task-definition/aws"
-  name_prefix     = "test-td"
+  name_prefix     = "test"
   container_image = "ubuntu"
   container_name  = "test"
 }
 
 module "service" {
   source              = "cn-terraform/ecs-fargate-service/aws"
-  name_prefix         = "test-service"
+  name_prefix         = "test"
   vpc_id              = module.base-network.vpc_id
   ecs_cluster_arn     = module.cluster.aws_ecs_cluster_cluster_arn
   task_definition_arn = module.td.aws_ecs_task_definition_td_arn
@@ -71,7 +71,7 @@ module "service" {
 
 module "ecs-service-autoscaling" {
   source           = "../../"
-  name_prefix      = "test-as"
+  name_prefix      = "test"
   ecs_cluster_name = module.cluster.aws_ecs_cluster_cluster_name
   ecs_service_name = module.service.aws_ecs_service_service_name
   # region                                      = "us-east-1"
