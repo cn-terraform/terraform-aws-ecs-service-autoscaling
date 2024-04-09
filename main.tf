@@ -14,8 +14,10 @@ resource "aws_cloudwatch_metric_alarm" "cpu_high" {
     ClusterName = var.ecs_cluster_name
     ServiceName = var.ecs_service_name
   }
-  alarm_actions = [aws_appautoscaling_policy.scale_up_policy.arn]
-
+  alarm_actions = [
+    aws_appautoscaling_policy.scale_up_policy.arn,
+    var.sns_topic_arn != "" ? var.sns_topic_arn : null
+  ]
   tags = var.tags
 }
 
@@ -35,8 +37,10 @@ resource "aws_cloudwatch_metric_alarm" "cpu_low" {
     ClusterName = var.ecs_cluster_name
     ServiceName = var.ecs_service_name
   }
-  alarm_actions = [aws_appautoscaling_policy.scale_down_policy.arn]
-
+  alarm_actions = [
+    aws_appautoscaling_policy.scale_down_policy.arn,
+    var.sns_topic_arn != "" ? var.sns_topic_arn : null
+  ]
   tags = var.tags
 }
 
