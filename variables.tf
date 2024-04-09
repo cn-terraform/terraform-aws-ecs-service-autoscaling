@@ -66,3 +66,10 @@ variable "scale_target_min_capacity" {
   default     = 1
   type        = number
 }
+
+variable "sns_topic_arn" {
+  # Optional ARN of an SNS topic for sending notifications
+  type        = string
+  description = "The ARN of an SNS topic to send notifications on alarm actions."
+  default     = "" # Set an empty string as default to avoid potential errors
+}
