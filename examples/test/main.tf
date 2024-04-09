@@ -1,3 +1,8 @@
+locals {
+  public_subnet_ids  = [for s in module.base-network.public_subnets : s.id]
+  private_subnet_ids = [for s in module.base-network.private_subnets : s.id]
+}
+
 module "cluster" {
   source = "cn-terraform/ecs-cluster/aws"
   name   = "test-cluster"
@@ -58,8 +63,8 @@ module "service" {
   vpc_id              = module.base-network.vpc_id
   ecs_cluster_arn     = module.cluster.aws_ecs_cluster_cluster_arn
   task_definition_arn = module.td.aws_ecs_task_definition_td_arn
-  public_subnets      = module.base-network.public_subnets
-  private_subnets     = module.base-network.private_subnets
+  public_subnets      = local.public_subnet_ids
+  private_subnets     = local.private_subnet_ids
   container_name      = "test"
   enable_autoscaling  = false
 }
