@@ -16,7 +16,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_high" {
   }
   alarm_actions = [
     aws_appautoscaling_policy.scale_up_policy.arn,
-    var.sns_topic_arn != "" ? var.sns_topic_arn : null
+    var.sns_topic_arn != "" ? var.sns_topic_arn : ""
   ]
   tags = var.tags
 }
@@ -39,7 +39,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_low" {
   }
   alarm_actions = [
     aws_appautoscaling_policy.scale_down_policy.arn,
-    var.sns_topic_arn != "" ? var.sns_topic_arn : null
+    var.sns_topic_arn != "" ? var.sns_topic_arn : ""
   ]
   tags = var.tags
 }
