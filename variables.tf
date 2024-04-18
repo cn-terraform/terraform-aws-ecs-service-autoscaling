@@ -73,3 +73,8 @@ variable "sns_topic_arn" {
   description = "The ARN of an SNS topic to send notifications on alarm actions."
   default     = "" # Set an empty string as default to avoid potential errors
 }
+variable "cooldown" {
+  description = "Cooldown period for scaling actions"
+  type        = number
+  default     = 60 // Default value, adjust as needed
+}
