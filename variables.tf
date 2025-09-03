@@ -67,6 +67,13 @@ variable "scale_target_min_capacity" {
   type        = number
 }
 
+variable "high_cpu_sns_topic_arn" {
+  # Optional ARN of an SNS topic for sending notifications for a high CPU alarm
+  type        = string
+  description = "The ARN of an SNS topic to send notifications on high CPU alarm actions."
+  default     = "" # Set an empty string as default to avoid potential errors
+}
+
 variable "sns_topic_arn" {
   # Optional ARN of an SNS topic for sending notifications
   type        = string
