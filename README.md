@@ -92,6 +92,7 @@ No modules.
 | <a name="input_scale_target_max_capacity"></a> [scale\_target\_max\_capacity](#input\_scale\_target\_max\_capacity) | The max capacity of the scalable target | `number` | `5` | no |
 | <a name="input_scale_target_min_capacity"></a> [scale\_target\_min\_capacity](#input\_scale\_target\_min\_capacity) | The min capacity of the scalable target | `number` | `1` | no |
 | <a name="input_sns_topic_arn"></a> [sns\_topic\_arn](#input\_sns\_topic\_arn) | The ARN of an SNS topic to send notifications on alarm actions. | `string` | `""` | no |
+| <a name="high_cpu_sns_topic_arn"></a> [high\ cpu\ sns\_topic\_arn](#input\_high\_cpu\_sns\_topic\_arn) | The ARN of an SNS topic to send notifications specifically on high CPU alarm actions. | `string` | `""` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Resource tags | `map(string)` | `{}` | no |
 
 ## Outputs
