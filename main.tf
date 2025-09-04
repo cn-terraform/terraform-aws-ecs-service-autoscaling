@@ -16,7 +16,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_high" {
   }
   alarm_actions = compact([
     aws_appautoscaling_policy.scale_up_policy.arn,
-    var.sns_topic_arn != "" ? var.sns_topic_arn : ""
+    var.sns_topic_arn != "" || var.high_cpu_sns_topic_arn != "" ? coalesce(var.sns_topic_arn, var.high_cpu_sns_topic_arn, "") : ""
   ])
   tags = var.tags
 }
