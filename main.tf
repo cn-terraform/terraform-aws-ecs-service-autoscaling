@@ -18,7 +18,14 @@ resource "aws_cloudwatch_metric_alarm" "cpu_high" {
     aws_appautoscaling_policy.scale_up_policy.arn,
     (var.sns_topic_arn != "" && var.sns_topic_arn != null) || (var.high_cpu_sns_topic_arn != "" && var.high_cpu_sns_topic_arn != null) ? coalesce(var.sns_topic_arn, var.high_cpu_sns_topic_arn, "") : ""
   ])
-  tags = var.tags
+
+  tags = merge(
+    {
+      Name = "${lookup(var.tags, "Product", "")}-${lookup(var.tags, "SubProduct", "")}.${lookup(var.tags, "Environment", "")}-CloudWatchMetricAlarm"
+    },
+    var.tags
+  )
+
 }
 
 #------------------------------------------------------------------------------
@@ -41,7 +48,12 @@ resource "aws_cloudwatch_metric_alarm" "cpu_low" {
     aws_appautoscaling_policy.scale_down_policy.arn,
     var.sns_topic_arn != "" ? var.sns_topic_arn : ""
   ])
-  tags = var.tags
+  tags = merge(
+    {
+      Name = "${lookup(var.tags, "Product", "")}-${lookup(var.tags, "SubProduct", "")}.${lookup(var.tags, "Environment", "")}-CloudWatchMetricAlarm"
+    },
+    var.tags
+  )
 }
 
 #------------------------------------------------------------------------------
