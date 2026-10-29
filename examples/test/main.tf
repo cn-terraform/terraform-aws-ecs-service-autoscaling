@@ -1,6 +1,6 @@
 locals {
-  public_subnet_ids  = [for s in module.base-network.public_subnets : s.id]
-  private_subnet_ids = [for s in module.base-network.private_subnets : s.id]
+  public_subnet_ids  = [for s in module.base_network.public_subnets : s.id]
+  private_subnet_ids = [for s in module.base_network.private_subnets : s.id]
 }
 
 module "cluster" {
@@ -8,9 +8,10 @@ module "cluster" {
   name   = "test"
 }
 
-module "base-network" {
-  source     = "cn-terraform/networking/aws"
-  cidr_block = "192.168.0.0/16"
+module "base_network" {
+  source         = "cn-terraform/networking/aws"
+  name_prefix    = "test"
+  vpc_cidr_block = "192.168.0.0/16"
 
   vpc_additional_tags = {
     vpc_tag1 = "tag1",
@@ -60,7 +61,7 @@ module "td" {
 module "service" {
   source              = "cn-terraform/ecs-fargate-service/aws"
   name_prefix         = "test"
-  vpc_id              = module.base-network.vpc_id
+  vpc_id              = module.base_network.vpc_id
   ecs_cluster_arn     = module.cluster.aws_ecs_cluster_cluster_arn
   task_definition_arn = module.td.aws_ecs_task_definition_td_arn
   public_subnets      = local.public_subnet_ids
@@ -69,7 +70,7 @@ module "service" {
   enable_autoscaling  = false
 }
 
-module "ecs-service-autoscaling" {
+module "ecs_service_autoscaling" {
   source           = "../../"
   name_prefix      = "test"
   ecs_cluster_name = module.cluster.aws_ecs_cluster_cluster_name
